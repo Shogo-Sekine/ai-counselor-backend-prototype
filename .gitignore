@@ -1,0 +1,4 @@
+data/*
+!/data/.gitkeep
+finetuned_model/*
+!finetuned_model/.gitkeep
