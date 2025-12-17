@@ -5,7 +5,8 @@ import torch
 
 # 既存のモデルとトークナイザーをロード
 # rinna/japanese-gpt2-small は比較的小さなモデルで、CPU学習にも向いています
-MODEL_NAME = "rinna/japanese-gpt2-small"
+# MODEL_NAME = "rinna/japanese-gpt2-small"
+MODEL_NAME = "rinna/japanese-gpt2-medium"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
 
@@ -44,7 +45,7 @@ output_dir = "./finetuned_model" # 学習済みモデルの保存先ディレク
 training_args = TrainingArguments(
   output_dir=output_dir,
   overwrite_output_dir=True,
-  num_train_epochs=20,           # エポック数（学習の繰り返し回数）- お試しなので少なめに
+  num_train_epochs=30,           # エポック数（学習の繰り返し回数）- お試しなので少なめに
   per_device_train_batch_size=1, # バッチサイズ - CPUでメモリ消費を抑えるため1に設定
   save_steps=1000,              # モデルを保存するステップ数（今回はデータが少ないので到達しない可能性が高い）
   save_total_limit=1,           # 保存するチェックポイントの最大数

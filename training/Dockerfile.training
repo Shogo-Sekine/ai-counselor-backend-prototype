@@ -1,0 +1,29 @@
+# 学習環境用Dockerfile
+FROM python:3.11-slim-bookworm
+
+# pipの設定（タイムアウト対策）
+ENV PIP_DEFAULT_TIMEOUT=100 \
+    PIP_RETRIES=5 \
+    PIP_NO_CACHE_DIR=1
+
+# 必要なシステムパッケージをインストール
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# 作業ディレクトリの設定
+WORKDIR /app
+
+# 学習用依存関係をコピーしてインストール
+COPY training/requirements-training.txt ./requirements-training.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements-training.txt
+
+# 学習スクリプトとデータをコピー
+COPY finetune_model.py ./
+COPY data/ ./data/
+
+# デフォルトコマンド
+CMD ["python", "finetune_model.py"]
