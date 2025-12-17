@@ -1,7 +1,9 @@
 import requests
 import json
+import os
 
-API_URL = "http://localhost:5001/generate"
+# 環境変数からAPI URLを取得（デフォルトはlocalhost:5000）
+API_URL = os.getenv("API_URL", "http://localhost:5000/generate")
 
 def chat_with_ai(prompt):
   headers = {"Content-Type": "application/json"}
@@ -18,6 +20,8 @@ def chat_with_ai(prompt):
 
 if __name__ == "__main__":
     print("AIカウンセラープロトタイプへようこそ！ (終了するには 'exit' または 'quit' と入力)")
+    print(f"API接続先: {API_URL}")
+    print("")
     while True:
       user_input = input("あなた: ")
       if user_input.lower() in ["exit", "quit"]:
